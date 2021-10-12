@@ -19,6 +19,7 @@ Compiler Features:
  * Optimizer: Added optimization rule ``and(shl(X, Y), shl(X, Z)) => shl(X, and(Y, Z))``.
  * SMTChecker: Support Eldarica as a Horn solver for the CHC engine when using the CLI option ``--model-checker-solvers eld``. The binary `eld` must be available in the system.
  * SMTChecker: Make ``z3`` the default solver for the BMC and CHC engines instead of all solvers.
+ * SMTChecker: New trusted mode that assumes that any compile-time available code is the actual used code even in external calls. This can be used via the CLI option ``--model-checker-ext-calls trusted`` or the JSON field ``settings.modelChecker.extCalls: "trusted"``.
  * Parser: More detailed error messages about invalid version pragmas.
  * Removed support for the ``solidity-upgrade`` tool.
  * TypeChecker: Warn when using deprecated builtin ``selfdestruct``.
