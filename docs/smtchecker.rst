@@ -557,6 +557,109 @@ Please be aware that enabling this mode makes the SMTChecker analysis much more
 computationally costly, since it needs to keep track of all deployed contracts
 and their storage.
 
+An important part of this mode is that it is applied to contract types and high
+level external calls to contracts, and not low level calls such as ``call`` and
+``delegatecall``. The storage of an address is stored per contract type, and
+the SMTChecker assumes that an externally called contract has the type of the
+caller expression.  Therefore, casting an ``address`` or a contract to
+different contract types will yield different storage values and can give
+unsound results if the assumptions are inconsistent, such as the example below:
+
+.. code-block:: solidity
+
+    // SPDX-License-Identifier: GPL-3.0
+    pragma solidity >=0.8.0;
+
+    contract D {
+        constructor(uint _x) { x = _x; }
+        uint public x;
+        function setX(uint _x) public { x = _x; }
+    }
+
+    contract E {
+        constructor() { x = 2; }
+        uint public x;
+        function setX(uint _x) public { x = _x; }
+    }
+
+    contract C {
+        function f() public {
+            address d = address(new D(42));
+
+            // `d` was deployed as `D`, so its `x` should be 42 now.
+            assert(D(d).x() == 42); // should hold
+            assert(D(d).x() == 43); // should fail
+
+            // E and D have the same interface, so the following
+            // call would also work at runtime.
+            // However, the change to `E(d)` is not reflected in `D(d)`.
+            E(d).setX(1024);
+
+            // Reading from `D(d)` now will show old values.
+            // The assertion below should fail at runtime,
+            // but succeeds in this mode's analysis (unsound).
+            assert(D(d).x() == 42);
+            // The assertion below should succeed at runtime,
+            // but fails in this mode's analysis (false positive).
+            assert(D(d).x() == 1024);
+        }
+    }
+
+Due to the above, make sure that the trusted external calls to a certain
+variable of ``address`` or ``contract`` type always have the same caller
+expression type.
+
+It is also helpful to cast the called contract's variable as the type of the
+most derived type in case of inheritance.
+
+   .. code-block:: solidity
+
+    // SPDX-License-Identifier: GPL-3.0
+    pragma solidity >=0.8.0;
+
+    interface Token {
+        function balanceOf(address _a) external view returns (uint);
+        function transfer(address _to, uint _amt) external;
+    }
+
+    contract TokenCorrect is Token {
+        mapping (address => uint) balance;
+        constructor(address _a, uint _b) {
+            balance[_a] = _b;
+        }
+        function balanceOf(address _a) public view override returns (uint) {
+            return balance[_a];
+        }
+        function transfer(address _to, uint _amt) public override {
+            require(balance[msg.sender] >= _amt);
+            balance[msg.sender] -= _amt;
+            balance[_to] += _amt;
+        }
+    }
+
+    contract Test {
+        function property_transfer(address _token, address _to, uint _amt) public {
+            require(_to != address(this));
+
+            TokenCorrect t = TokenCorrect(_token);
+
+            uint xPre = t.balanceOf(address(this));
+            require(xPre >= _amt);
+            uint yPre = t.balanceOf(_to);
+
+            t.transfer(_to, _amt);
+            uint xPost = t.balanceOf(address(this));
+            uint yPost = t.balanceOf(_to);
+
+            assert(xPost == xPre - _amt);
+            assert(yPost == yPre + _amt);
+        }
+    }
+
+Note that in function ``property_transfer``, the external calls are
+performed on variable ``t``
+
+
 Reported Inferred Inductive Invariants
 ======================================
 
