@@ -36,6 +36,7 @@ Bugfixes:
  * SMTChecker: Fix internal error on chain assignments using static fully specified state variables.
  * SMTChecker: Fix internal error when using user defined types as mapping indices or struct members.
  * SMTChecker: Fix internal error when deleting struct member of function type.
+ * TypeChecker: Also allow external library functions in ``using for``.
  * TypeChecker: Fix bug where private library functions could be attached with ``using for`` outside of their declaration scope.
 
 
