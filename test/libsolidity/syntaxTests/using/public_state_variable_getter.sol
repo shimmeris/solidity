@@ -8,4 +8,4 @@ contract C {
     using {a.data} for uint;
 }
 // ----
-// DeclarationError 9589: (82-88): Function name expected, but the identifier was not found or is not unique.
+// DeclarationError 9589: (82-88): Identifier is not a function name or not unique.

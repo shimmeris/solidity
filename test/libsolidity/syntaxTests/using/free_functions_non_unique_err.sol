@@ -9,4 +9,4 @@ contract C {
     using {id} for uint256;
 }
 // ----
-// DeclarationError 9589: (145-147): Function name expected, but the identifier was not found or is not unique.
+// DeclarationError 9589: (145-147): Identifier is not a function name or not unique.

@@ -207,7 +207,7 @@ std::vector<Declaration const*> NameAndTypeResolver::pathFromCurrentScopeWithAll
 	settings.recursive = true;
 	settings.alsoInvisible = _includeInvisibles;
 	settings.onlyVisibleAsUnqualifiedNames = true;
-	vector<Declaration const*> candidates = m_currentScope->resolveName(_path.front(), std::move(settings));
+	vector<Declaration const*> candidates = m_currentScope->resolveName(_path.front(), settings);
 
 	// inside the loop, use default settings, except for alsoInvisible
 	settings.recursive = false;

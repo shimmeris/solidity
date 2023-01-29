@@ -10,4 +10,4 @@ contract C {
     using { id } for uint;
 }
 // ----
-// DeclarationError 9589: (B:43-45): Function name expected, but the identifier was not found or is not unique.
+// DeclarationError 9589: (B:43-45): Identifier is not a function name or not unique.

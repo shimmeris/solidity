@@ -195,11 +195,14 @@ bool ReferencesResolver::visit(UsingForDirective const& _usingFor)
 		vector<Declaration const*> declarations = m_resolver.pathFromCurrentScopeWithAllDeclarations(path->path(), true /* _includeInvisibles */);
 		if (declarations.empty())
 		{
-			string libraryOrFunctionName = _usingFor.usesBraces() ? "Function" : "Library";
+			string libraryOrFunctionNameErrorMessage =
+				_usingFor.usesBraces() ?
+				"Identifier is not a function name or not unique." :
+				"Identifier is not a library name.";
 			m_errorReporter.fatalDeclarationError(
 				9589_error,
 				path->location(),
-				libraryOrFunctionName + " name expected, but the identifier was not found or is not unique."
+				libraryOrFunctionNameErrorMessage
 			);
 			break;
 		}
