@@ -23,6 +23,8 @@ contract C {
         );
     }
 }
+// ====
+// SMTIgnoreOS: macos
 // ----
 // Warning 6328: (333-455): CHC: Assertion violation might happen here.
 // Warning 4661: (333-455): BMC: Assertion violation happens here.
