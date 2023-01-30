@@ -553,9 +553,8 @@ This means assuming that address ``_e`` indeed was deployed as contract ``Ext``.
 This mode can be enabled via the CLI option ``--model-checker-ext-calls=trusted``
 or the JSON field ``settings.modelChecker.extCalls: "trusted"``.
 
-Please be aware that enabling this mode makes the SMTChecker analysis much more
-computationally costly, since it needs to keep track of all deployed contracts
-and their storage.
+Please be aware that enabling this mode can make the SMTChecker analysis much more
+computationally costly.
 
 An important part of this mode is that it is applied to contract types and high
 level external calls to contracts, and not low level calls such as ``call`` and
@@ -659,6 +658,47 @@ most derived type in case of inheritance.
 Note that in function ``property_transfer``, the external calls are
 performed on variable ``t``
 
+Another caveat of this mode are calls to state variables of contract type
+outside the analyzed contract. In the code below, even though ``B`` deploys
+``A``, it is also possible for the address stored in ``B.a`` to be called by
+anyone outside of ``B`` in between transactions to ``B`` itself. To reflect the
+possible changes to ``B.a``, the encoding allows an unbounded number of calls
+to be made to ``B.a`` externally. The encoding will keep track of ``B.a``'s
+storage, therefore assertion (2) should hold. However, currently the encoding
+allows such calls to be made from ``B`` conceptually, therefore assertion (3)
+fails.  Making the encoding stronger logically is an extension of the trusted
+mode and is under development. Note that the encoding does not keep track of
+storage for ``address`` variables, therefore if ``B.a`` had type ``address``
+the encoding would assume that its storage does not change in between
+transactions to ``B``.
+
+   .. code-block:: solidity
+
+    pragma solidity >=0.8.0;
+
+    contract A {
+        uint public x;
+        address immutable public owner;
+        constructor() {
+            owner = msg.sender;
+        }
+        function setX(uint _x) public {
+            require(msg.sender == owner);
+            x = _x;
+        }
+    }
+
+    contract B {
+        A a;
+        constructor() {
+            a = new A();
+            assert(a.x() == 0); // (1) should hold
+        }
+        function g() public view {
+            assert(a.owner() == address(this)); // (2) should hold
+            assert(a.x() == 0); // (3) should hold, but fails due to a false positive
+        }
+    }
 
 Reported Inferred Inductive Invariants
 ======================================
