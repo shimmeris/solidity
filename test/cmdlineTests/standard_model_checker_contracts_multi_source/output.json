@@ -24,8 +24,7 @@ Counterexample:
 y = 0
 
 Transaction trace:
-<<<<<<< HEAD
-A.constructor()
+B.constructor()
 B.g(0)",
             "severity": "warning",
             "sourceLocation":
@@ -40,10 +39,6 @@ B.g(0)",
             "component": "general",
             "errorCode": "6328",
             "formattedMessage": "Warning: CHC: Assertion violation happens here.
-=======
-B.constructor()
-B.g(0)","severity":"warning","sourceLocation":{"end":137,"file":"Source","start":124},"type":"Warning"},{"component":"general","errorCode":"6328","formattedMessage":"Warning: CHC: Assertion violation happens here.
->>>>>>> 58e35933e (commandline tests)
 Counterexample:
 
 x = 0

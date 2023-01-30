@@ -1019,10 +1019,10 @@ std::variant<StandardCompiler::InputsAndSettings, Json::Value> StandardCompiler:
 	if (modelCheckerSettings.isMember("extCalls"))
 	{
 		if (!modelCheckerSettings["extCalls"].isString())
-			return formatFatalError("JSONError", "settings.modelChecker.extCalls must be a string.");
+			return formatFatalError(Error::Type::JSONError, "settings.modelChecker.extCalls must be a string.");
 		std::optional<ModelCheckerExtCalls> extCalls = ModelCheckerExtCalls::fromString(modelCheckerSettings["extCalls"].asString());
 		if (!extCalls)
-			return formatFatalError("JSONError", "Invalid model checker extCalls requested.");
+			return formatFatalError(Error::Type::JSONError, "Invalid model checker extCalls requested.");
 		ret.modelCheckerSettings.externalCalls = *extCalls;
 	}
 
