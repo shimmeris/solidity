@@ -15,10 +15,3 @@ contract C {
 // SMTEngine: all
 // SMTIgnoreCex: yes
 // ----
-<<<<<<< HEAD
-=======
-// Warning 6328: (225-256): CHC: Assertion violation happens here.
-// Warning 6328: (352-399): CHC: Assertion violation happens here.
-// Warning 6328: (526-589): CHC: Assertion violation happens here.
-// Warning 6328: (732-811): CHC: Assertion violation happens here.
->>>>>>> c51099a83 (Adjust tests for nondeterminism)

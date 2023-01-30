@@ -18,3 +18,4 @@ contract C
 // SMTIgnoreOS: macos
 // ----
 // Warning 6368: (216-225): CHC: Out of bounds access might happen here.
+// Warning 6328: (209-230): CHC: Assertion violation might happen here.

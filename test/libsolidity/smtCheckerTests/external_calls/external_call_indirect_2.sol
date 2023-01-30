@@ -41,6 +41,5 @@ contract C {
 // SMTEngine: chc
 // SMTExtCalls: trusted
 // ----
-// Warning 1218: (356-377): CHC: Error trying to invoke SMT solver.
-// Warning 6328: (356-377): CHC: Assertion violation might happen here.
+// Warning 6328: (356-377): CHC: Assertion violation happens here.
 // Warning 6328: (592-613): CHC: Assertion violation might happen here.
