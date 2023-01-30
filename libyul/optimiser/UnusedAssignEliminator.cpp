@@ -114,6 +114,8 @@ void UnusedAssignEliminator::visit(Statement const& _statement)
 
 	if (auto const* assignment = get_if<Assignment>(&_statement))
 	{
+		// We do not remove assignments whose values might have side-effects,
+		// but clear the active stores to the assigned variables in any case.
 		if (SideEffectsCollector{m_dialect, *assignment->value}.movable())
 		{
 			m_allStores.insert(&_statement);

@@ -72,7 +72,7 @@ void UnusedStoreBase::operator()(Switch const& _switch)
 void UnusedStoreBase::operator()(FunctionDefinition const& _functionDefinition)
 {
 	ScopedSaveAndRestore allStores(m_allStores, {});
-	ScopedSaveAndRestore usedStoresStores(m_usedStores, {});
+	ScopedSaveAndRestore usedStores(m_usedStores, {});
 	ScopedSaveAndRestore outerAssignments(m_activeStores, {});
 	ScopedSaveAndRestore forLoopInfo(m_forLoopInfo, {});
 	ScopedSaveAndRestore forLoopNestingDepth(m_forLoopNestingDepth, 0);
