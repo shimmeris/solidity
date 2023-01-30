@@ -1,6 +1,6 @@
 contract State {
 	function f(uint _x) public pure returns (uint) {
-		assert(_x < 100);
+		assert(_x < 100); // should fail
 		return _x;
 	}
 }

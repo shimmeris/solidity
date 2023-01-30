@@ -20,7 +20,14 @@ contract B {
 		assert(a.getX() == 0); // should hold
 	}
 	function g() public view {
-		assert(a.getX() == 0); // should hold
+		assert(a.getX() == 0); // should hold, but fails because
+        // the nondet_interface constraint added for `A a` in between
+        // txs of `B` does not have the constraint that `msg.sender != address(this)`
+        // so `A.setX` is allowed with `msg.sender = address(this)` inside
+        // the current rules defining nondet_interface.
+        // If we want to support that, we likely need a new type of nondet_interface
+        // `nondet_interface_with_tx` that contains tx data as well as restricts
+        // every further `nondet_interface_with_tx` to not have that `msg.sender`.
 	}
 	function getX() public view returns (uint) {
 		return a.getX();
