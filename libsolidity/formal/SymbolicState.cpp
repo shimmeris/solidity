@@ -134,12 +134,12 @@ smtutil::Expression SymbolicState::storage(ContractDefinition const& _contract) 
 
 smtutil::Expression SymbolicState::storage(ContractDefinition const& _contract, smtutil::Expression _address) const
 {
-	return smtutil::Expression::select(storage(_contract), move(_address));
+	return smtutil::Expression::select(storage(_contract), std::move(_address));
 }
 
 smtutil::Expression SymbolicState::addressActive(smtutil::Expression _address) const
 {
-	return smtutil::Expression::select(m_state->member("isActive"), move(_address));
+	return smtutil::Expression::select(m_state->member("isActive"), std::move(_address));
 }
 
 void SymbolicState::setAddressActive(
@@ -149,7 +149,7 @@ void SymbolicState::setAddressActive(
 {
 	m_state->assignMember("isActive", smtutil::Expression::store(
 		m_state->member("isActive"),
-		move(_address),
+		std::move(_address),
 		smtutil::Expression(_active))
 	);
 }
@@ -177,7 +177,7 @@ void SymbolicState::writeStateVars(ContractDefinition const& _contract, smtutil:
 	smtutil::Expression thisStorage = storage(_contract, _address);
 	smtutil::Expression newStorage = smt::assignMember(thisStorage, values);
 	auto newContractStorage = smtutil::Expression::store(
-		storage(_contract), move(_address), newStorage
+		storage(_contract), std::move(_address), newStorage
 	);
 	smtutil::Expression newAllStorage = smt::assignMember(m_state->member("storage"), {{contractStorageKey(_contract), newContractStorage}});
 	m_state->assignMember("storage", newAllStorage);
@@ -189,7 +189,7 @@ void SymbolicState::readStateVars(ContractDefinition const& _contract, smtutil::
 	if (stateVars.empty())
 		return;
 
-	auto contractStorage = storage(_contract, move(_address));
+	auto contractStorage = storage(_contract, std::move(_address));
 	for (auto var: stateVars)
 		m_context.addAssertion(
 			m_context.variable(*var)->increaseIndex() ==
@@ -344,7 +344,7 @@ void SymbolicState::buildState(set<ContractDefinition const*, ASTCompareByID<Con
 
 	m_state = make_unique<BlockchainVariable>(
 		"state",
-		move(stateMembers),
+		std::move(stateMembers),
 		m_context
 	);
 }
