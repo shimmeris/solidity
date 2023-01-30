@@ -33,5 +33,3 @@ contract C {
 // SMTIgnoreOS: macos
 // SMTSolvers: z3
 // ----
-// Warning 6328: (406-419): CHC: Assertion violation might happen here.
-// Warning 4661: (406-419): BMC: Assertion violation happens here.

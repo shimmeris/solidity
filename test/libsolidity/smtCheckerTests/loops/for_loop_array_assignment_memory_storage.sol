@@ -27,4 +27,3 @@ contract LoopFor2 {
 // SMTIgnoreOS: macos
 // SMTSolvers: z3
 // ----
-// Warning 6368: (409-413): CHC: Out of bounds access might happen here.

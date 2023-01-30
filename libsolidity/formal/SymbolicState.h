@@ -68,10 +68,9 @@ private:
  *   - block basefee
  *   - block chainid
  *   - block coinbase
- *   - block difficulty
- *   - block prevrandao
  *   - block gaslimit
  *   - block number
+ *   - block prevrandao
  *   - block timestamp
  *   - TODO gasleft
  *   - msg data
@@ -193,14 +192,12 @@ private:
 		m_context
 	};
 
-	// TODO: Remove `block.difficulty` in 0.9.0
 	BlockchainVariable m_tx{
 		"tx",
 		{
 			{"block.basefee", smtutil::SortProvider::uintSort},
 			{"block.chainid", smtutil::SortProvider::uintSort},
 			{"block.coinbase", smt::smtSort(*TypeProvider::address())},
-			{"block.difficulty", smtutil::SortProvider::uintSort},
 			{"block.prevrandao", smtutil::SortProvider::uintSort},
 			{"block.gaslimit", smtutil::SortProvider::uintSort},
 			{"block.number", smtutil::SortProvider::uintSort},
