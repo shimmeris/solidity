@@ -292,21 +292,6 @@ BOOST_AUTO_TEST_CASE(assembly_mode_options)
 			"--libraries="
 				"dir1/file1.sol:L=0x1234567890123456789012345678901234567890,"
 				"dir2/file2.sol:L=0x1111122222333334444455555666667777788888",
-			"--metadata-hash=swarm",       // Ignored in assembly mode
-			"--metadata-literal",          // Ignored in assembly mode
-			"--model-checker-contracts="   // Ignored in assembly mode
-				"contract1.yul:A,"
-				"contract2.yul:B",
-			"--model-checker-div-mod-no-slacks", // Ignored in assembly mode
-			"--model-checker-engine=bmc",  // Ignored in assembly mode
-			"--model-checker-ext-calls=trusted",	// Ignored in assembly mode
-			"--model-checker-invariants=contract,reentrancy",  // Ignored in assembly mode
-			"--model-checker-show-unproved", // Ignored in assembly mode
-			"--model-checker-solvers=z3,smtlib2", // Ignored in assembly mode
-			"--model-checker-targets="     // Ignored in assembly mode
-				"underflow,"
-				"divByZero",
-			"--model-checker-timeout=5",   // Ignored in assembly mode
 			"--asm",
 			"--bin",
 			"--ir-optimized",
@@ -390,21 +375,6 @@ BOOST_AUTO_TEST_CASE(standard_json_mode_options)
 			"dir2/file2.sol:L=0x1111122222333334444455555666667777788888",
 		"--gas",                           // Accepted but has no effect in Standard JSON mode
 		"--combined-json=abi,bin",         // Accepted but has no effect in Standard JSON mode
-		"--metadata-hash=swarm",           // Ignored in Standard JSON mode
-		"--metadata-literal",              // Ignored in Standard JSON mode
-		"--model-checker-contracts="       // Ignored in Standard JSON mode
-			"contract1.yul:A,"
-			"contract2.yul:B",
-		"--model-checker-div-mod-no-slacks", // Ignored in Standard JSON mode
-		"--model-checker-engine=bmc",      // Ignored in Standard JSON mode
-		"--model-checker-ext-calls=trusted",	// Ignored in Standard JSON mode
-		"--model-checker-invariants=contract,reentrancy",      // Ignored in Standard JSON mode
-		"--model-checker-show-unproved",      // Ignored in Standard JSON mode
-		"--model-checker-solvers=z3,smtlib2", // Ignored in Standard JSON mode
-		"--model-checker-targets="         // Ignored in Standard JSON mode
-			"underflow,"
-			"divByZero",
-		"--model-checker-timeout=5",       // Ignored in Standard JSON mode
 	};
 
 	CommandLineOptions expectedOptions;
